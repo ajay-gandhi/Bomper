@@ -1,0 +1,33 @@
+{
+  "name": "bomper",
+  "version": "0.0.1",
+  "description": "Open web bookmarks from the command line",
+  "main": "bomper.js",
+  "bin": {
+    "bomper": "./bomper.js"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "bplist-parser": "^0.1.0",
+    "es6-promise": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajay-gandhi/bomper.git"
+  },
+  "keywords": [
+    "bookmarks",
+    "safari",
+    "command"
+  ],
+  "author": "Ajay Gandhi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajay-gandhi/bomper/issues"
+  },
+  "homepage": "https://github.com/ajay-gandhi/bomper#readme"
+}
