@@ -1,11 +1,13 @@
 #!/usr/bin/env node
+'use strict';
 
 // NPM modules
 var program = require('commander'),
     open    = require('open');
 
 // Browser bookmark modules
-var safari = require('./browsers/safari');
+var safari = require('./browsers/safari'),
+    chrome = require('./browsers/chrome');
 
 program
   .version(require('./package.json').version)
@@ -16,18 +18,29 @@ if (!process.argv.slice(2).length) {
     program.help();
 }
 
-safari
+var bookmarks;
+
+// Gather all bookmarks from all browsers
+chrome
   .osx()
   .then(function (o) {
+    bookmarks = o;
+    return safari.osx();
+  })
+  .then(function (o) {
+    bookmarks = bookmarks.concat(o);
+
+    // Now search
     var search = process.argv.slice(2).join(' ');
 
-    var url = o.reduce(function (acc, bm) {
+    var url = bookmarks.reduce(function (acc, bm) {
       if (bm.name.toLowerCase().indexOf(search) >= 0) {
         return bm.url;
       } else {
         return acc;
       }
-    }, '');
+    }, false);
 
-    open(url);
+    if (!url) console.log('No bookmark found matching "' + search + '"');
+    else      open(url);
   });

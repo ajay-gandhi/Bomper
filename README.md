@@ -1,12 +1,6 @@
 # Bomper
 
-> Open bookmarks from the command line
-
-Bomper allows you to open your web bookmarks directly from the command line:
-
-```bash
-$ bomper gmail
-```
+> Open web bookmarks from the command line
 
 ## Usage
 
@@ -27,7 +21,10 @@ $ bomper gmail    # opens "gmail" bookmark
 Currently, Bomper supports these browsers:
 
 * Safari
+* Chrome
 
 On these operating systems:
 
 * Mac OS
+
+If you'd like to add a browser, please feel free to fork and PR!
