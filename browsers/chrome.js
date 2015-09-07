@@ -45,8 +45,8 @@ var parse_bookmarks_json = function (arr) {
     if (e.type === 'url') {
       // Bookmark
       return acc.concat({
-        name: e.name,
-        url:  e.url
+        name:  e.name,
+        value: e.url
       });
 
     } else if (e.type === 'folder') {

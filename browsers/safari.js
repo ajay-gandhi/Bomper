@@ -37,8 +37,8 @@ var parse_bookmarks_plist = function (o) {
       // Bookmark
       if (child.WebBookmarkType === 'WebBookmarkTypeLeaf') {
         return acc.concat({
-          name: child.URIDictionary.title,
-          url:  child.URLString
+          name:  child.URIDictionary.title,
+          value: child.URLString
         });
 
       } else if (child.WebBookmarkType === 'WebBookmarkTypeList') {
