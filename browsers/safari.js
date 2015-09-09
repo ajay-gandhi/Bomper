@@ -7,7 +7,8 @@
 var bplist  = require('bplist-parser'),
     Promise = require('es6-promise').Promise;
 
-module.exports.osx = function () {
+// Gets bookmarks from Safari on OS X
+module.exports['darwin'] = function () {
   var bm = process.env['HOME'] + '/Library/Safari/Bookmarks.plist';
 
   return new Promise(function (resolve) {
@@ -25,6 +26,11 @@ module.exports.osx = function () {
       resolve(bookmarks);
     });
   });
+}
+
+// No such thing as Safari on linux, generally
+module.exports['linux'] = function () {
+  return [];
 }
 
 /**

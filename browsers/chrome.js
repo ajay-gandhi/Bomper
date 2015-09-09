@@ -7,10 +7,20 @@
 var fs      = require('fs'),
     Promise = require('es6-promise').Promise;
 
-module.exports.osx = function () {
-  // Location of bookmarks file
-  var bm_path = process.env['HOME'];
-      bm_path += '/Library/Application Support/Google/Chrome/Default/Bookmarks';
+// Gets all bookmarks for Chrome on OS X
+var get_bookmarks = function (os) {
+
+  var bm_bases = {
+    'osx':   process.env['HOME'],
+    'linux': process.env['HOME']
+  }
+
+  var bm_paths = {
+    'osx':   '/Library/Application Support/Google/Chrome/Default/Bookmarks',
+    'linux': '/.config/google-chrome/Default/Bookmarks'
+  }
+
+  var bm_path = bm_bases[os] + bm_paths[os];
 
   return new Promise(function (resolve) {
     fs.readFile(bm_path, function(err, data) {
@@ -36,6 +46,10 @@ module.exports.osx = function () {
     });
   });
 }
+
+// Export the function
+module.exports['darwin'] = function () { return get_bookmarks('osx');   };
+module.exports['linux']  = function () { return get_bookmarks('linux'); };
 
 /**
  * Recursively adds folders of bookmarks to one big array

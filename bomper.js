@@ -3,6 +3,7 @@
 
 // NPM modules
 var program  = require('commander'),
+    os       = require('os').platform(),
     open     = require('open'),
     Inquirer = require('inquirer');
 
@@ -25,12 +26,11 @@ program
 var bookmarks;
 
 // Gather all bookmarks from all browsers
-chrome
-  .osx()
+chrome[os]()
   .then(function (o) {
     // Store chrome bookmarks
     bookmarks = o;
-    return safari.osx();
+    return safari[os]();
   })
   .then(function (o) {
 

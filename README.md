@@ -26,5 +26,6 @@ Currently, Bomper supports these browsers:
 On these operating systems:
 
 * Mac OS
+* Linux
 
 If you'd like to add a browser, please feel free to fork and PR!
