@@ -35,7 +35,7 @@ chrome[os]()
   .then(function (o) {
 
     // Display inquirer prompt
-    if (!process.argv.slice(2).length) {
+    if (!program.args.length) {
       // Add separators
       bookmarks.unshift(new Inquirer.Separator('Chrome'));
       bookmarks.push(new Inquirer.Separator('Safari'));
@@ -58,11 +58,11 @@ chrome[os]()
       bookmarks = bookmarks.concat(o);
 
       // Now search
-      var search = process.argv.slice(2).join(' ');
+      var search = program.args.join(' ');
 
       var url = bookmarks.reduce(function (acc, bm) {
         if (bm.name.toLowerCase().indexOf(search) >= 0) {
-          return bm.url;
+          return bm.value;
         } else {
           return acc;
         }
