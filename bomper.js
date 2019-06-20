@@ -2,19 +2,19 @@
 'use strict';
 
 // NPM modules
-var program  = require('commander'),
-    os       = require('os').platform(),
-    open     = require('open'),
-    Inquirer = require('inquirer');
+const program = require('commander');
+const os = require('os').platform();
+const open = require('open');
+const inquirer = require('inquirer');
 
 // Browser bookmark modules
-var safari = require('./browsers/safari'),
-    chrome = require('./browsers/chrome');
+const safari = require('./browsers/safari');
+const chrome = require('./browsers/chrome');
 
 program
   .version(require('./package.json').version)
   .usage('[bookmark name]')
-  .on('--help', function () {
+  .on('--help', () => {
     console.log('  Examples:');
     console.log('');
     console.log('    $ bomper         # display bookmark prompt');
@@ -23,49 +23,41 @@ program
   })
   .parse(process.argv);
 
-var bookmarks;
+let bookmarks;
 
-// Gather all bookmarks from all browsers
 chrome[os]()
-  .then(function (o) {
+  .then((chromeBookmarks) => {
     // Store chrome bookmarks
-    bookmarks = o;
+    bookmarks = chromeBookmarks;
     return safari[os]();
   })
-  .then(function (o) {
-
+  .then((safariBookmarks) => {
     // Display inquirer prompt
     if (!program.args.length) {
       // Add separators
-      bookmarks.unshift(new Inquirer.Separator('Chrome'));
-      bookmarks.push(new Inquirer.Separator('Safari'));
+      bookmarks.unshift(new inquirer.Separator('Chrome'));
+      bookmarks.push(new inquirer.Separator('Safari'));
 
       // Add safari bookmarks
-      bookmarks = bookmarks.concat(o);
+      bookmarks = bookmarks.concat(safariBookmarks);
 
       // Display inquirer prompt of all bookmarks
-      Inquirer.prompt({
+      inquirer.prompt({
         type:    'list',
         name:    'which',
         message: 'Which bookmark would you like to open?',
-        choices: bookmarks
-      }, function (answers) {
-        open(answers.which);
-      });
-
+        choices: bookmarks,
+      })
+      .then(answers => open(answers.which));
     } else {
       // Open the given search bookmark
-      bookmarks = bookmarks.concat(o);
+      bookmarks = bookmarks.concat(safariBookmarks);
 
       // Now search
       var search = program.args.join(' ');
 
-      var url = bookmarks.reduce(function (acc, bm) {
-        if (bm.name.toLowerCase().indexOf(search) >= 0) {
-          return bm.value;
-        } else {
-          return acc;
-        }
+      var url = bookmarks.reduce((memo, bm) => {
+        return bm.name.toLowerCase().includes(search) ? bm.value : memo;
       }, false);
 
       if (!url) console.log('No bookmark found matching "' + search + '"');
