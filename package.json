@@ -1,6 +1,6 @@
 {
   "name": "bomper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Open web bookmarks from the command line",
   "main": "bomper.js",
   "bin": {
